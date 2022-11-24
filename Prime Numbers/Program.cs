@@ -10,24 +10,12 @@ namespace Prime_Numbers
     {
         static void Main(string[] args)
         {
-            /*for (int i = 1; i < 1000; i++)
+            for (int i = 1; i < 10000; i++)
             {
                 if (IsPrime(i))
                 {
                     Console.WriteLine(i);
                 }
-            }*/
-
-            int input = int.Parse(Console.ReadLine());
-
-            if (IsPrime(input))
-            {
-                Console.WriteLine("Prime");
-            }
-
-            else
-            {
-                Console.WriteLine("Not Prime");
             }
 
             Console.ReadLine();
@@ -40,7 +28,7 @@ namespace Prime_Numbers
                 return false;
             }
 
-            for (int i = 2; i < number; i++)
+            for (int i = 2; i < number; i += 2)
             {
                 if (number % i == 0)
                 {
