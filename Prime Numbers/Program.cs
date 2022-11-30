@@ -13,39 +13,53 @@ namespace Prime_Numbers
 
         static void Main(string[] args)
         {
+            yes();
+            yes();
+            yes();
+            Console.ReadLine();
+        }
 
+        static void yes()
+        {
+            stopwatch.Reset();
             int primes = 0;
+            int minimum = 0;
+            int maximum = 10000000;
+            int threads = 12;
+            Task[] tasks = new Task[threads];
 
             stopwatch.Start();
 
-            TestInThreads(2, 0, 1000000);
+
+            for (int i = 0; i < threads; i++)
+            {
+                tasks[i] = Task.Factory.StartNew((arg) =>
+                {
+                    int threadNumber = (int)arg;
+
+                    int threadPrimes = 0;
+                    int sliceSize = (maximum - minimum) / threads;
+                    int threadMinimum = minimum + (sliceSize * threadNumber);
+                    int threadMaximum = threadMinimum + sliceSize;
+
+                    for (int j = threadMinimum; j < threadMaximum; j++)
+                    {
+                        if (IsPrime(j))
+                        {
+                            threadPrimes++;
+                        }
+                    }
+
+                    primes += threadPrimes;
+                }, i);
+            }
+
+            Task.WaitAll(tasks);
 
             stopwatch.Stop();
 
             Console.WriteLine($"There are {primes} primes between {minimum} and {maximum}");
-            Console.WriteLine($"Took {stopwatch.Elapsed} time");
-
-            Console.ReadLine();
-        }
-
-        static void TestInThreads(int numberOfThreads, int minimum, int maximum)
-        {
-            int primes = 0;
-            Task[] tasks = new Task[numberOfThreads];
-
-            for (int j = 0; j < numberOfThreads; j++)
-            {
-                tasks[j] = Task.Run(() =>
-                {
-                    for (int i = (maximum / numberOfThreads) * j; i < (maximum / numberOfThreads) * (j + 1); i++)
-                    {
-                        if (IsPrime(i))
-                        {
-                            primes++;
-                        }
-                    }
-                });
-            }
+            Console.WriteLine($"Took {stopwatch.ElapsedMilliseconds} milliseconds");
         }
 
         static bool IsPrime(int number)
