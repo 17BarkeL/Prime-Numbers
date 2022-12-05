@@ -13,14 +13,6 @@ namespace Prime_Numbers
 
         static void Main(string[] args)
         {
-            yes();
-            yes();
-            yes();
-            Console.ReadLine();
-        }
-
-        static void yes()
-        {
             stopwatch.Reset();
             int primes = 0;
             int minimum = 0;
@@ -60,6 +52,8 @@ namespace Prime_Numbers
 
             Console.WriteLine($"There are {primes} primes between {minimum} and {maximum}");
             Console.WriteLine($"Took {stopwatch.ElapsedMilliseconds} milliseconds");
+
+            Console.ReadLine();
         }
 
         static bool IsPrime(int number)
